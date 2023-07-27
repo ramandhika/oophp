@@ -22,6 +22,13 @@ class produk {
         
 }
 
+class cetakinfoproduk {
+    public function cetak( produk $produk ) { // produk $produk adalah untuk validasi hanya inputan dari class produk saja yang bisa masuk/menggunakan
+        $str = "{$produk->judul} | {$produk->getLabel()} (Rp. {$produk->harga})";
+        return $str;
+    }
+}
+
 // Membuat Instances
 $produk1 = new produk("Naruto","Masashi Kishimoto", "Shonen Jump", 30000);
 
@@ -32,4 +39,9 @@ $produk2 = new produk("Valorant","Unknown","Riot Games", 0);
 echo "Komik :" . $produk1->getLabel();
 echo "<br>";
 echo "Game : " . $produk2->getLabel();
+echo "<br>";
+// Membuat Instances CetakInfoProduk
+$infocetak1 = new cetakinfoproduk();
+// Memanggil Method cetak yang ada di dalam class cetakinfoproduk
+echo $infocetak1->cetak($produk1);
 ?>
