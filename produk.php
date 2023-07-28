@@ -5,19 +5,37 @@ class produk {
      public $judul,
             $penulis,
             $penerbit,
-            $harga;
+            $harga,
+            $jumlahHalaman,
+            $jumlahJam,
+            $tipe;
 
     // Method
+    public function __construct( $judul = "Nama Barang", $penulis = "Nama Penulis", $penerbit = "Nama Penerbit", $harga = 0, $jumlahHalaman = null, $jumlahJam = null, $tipe = "Default"){
+        $this->judul = $judul;
+        $this->penulis = $penulis;
+        $this->penerbit = $penerbit;
+        $this->harga = $harga;
+        $this->jumlahHalaman = $jumlahHalaman;
+        $this->jumlahJam = $jumlahJam;
+        $this->tipe = $tipe;
+    }
+    
     public function getLabel () {
         return "$this->penulis,$this->penerbit";
         // Fungsi $this-> berfungsi untuk mengambil data dari variabel public dalam class
     }
 
-    public function __construct( $judul = "Nama Barang", $penulis = "Nama Penulis", $penerbit = "Nama Penerbit", $harga = 0){
-        $this->judul = $judul;
-        $this->penulis = $penulis;
-        $this->penerbit = $penerbit;
-        $this->harga = $harga;
+    public function getInfoLengkap() {
+        // Komik : Naruto | Masashi Kishimoto,Shonen Jump (Rp. 30000) - 100 Halaman
+        $str = "{$this->tipe} : {$this->judul} {$this->getLabel()} (Rp. {$this->harga})";
+        if( $this->tipe == "Komik") {
+            $str .= " - {$this->jumlahHalaman} Halaman.";
+        } else if( $this->tipe == "Game" ){
+            $str .= " ~ {$this->jumlahJam} Jam.";
+        }
+
+        return $str;
     }
         
 }
@@ -30,18 +48,13 @@ class cetakinfoproduk {
 }
 
 // Membuat Instances
-$produk1 = new produk("Naruto","Masashi Kishimoto", "Shonen Jump", 30000);
+$produk1 = new produk("Naruto","Masashi Kishimoto", "Shonen Jump", 30000, 100, null, "Komik");
 
-$produk2 = new produk("Valorant","Unknown","Riot Games", 0);
+$produk2 = new produk("Valorant","Unknown","Riot Games", 0, null, 50, "Game");
 
 
 // Print Method
-echo "Komik :" . $produk1->getLabel();
+echo $produk1->getInfoLengkap();
 echo "<br>";
-echo "Game : " . $produk2->getLabel();
-echo "<br>";
-// Membuat Instances CetakInfoProduk
-$infocetak1 = new cetakinfoproduk();
-// Memanggil Method cetak yang ada di dalam class cetakinfoproduk
-echo $infocetak1->cetak($produk1);
+echo $produk2->getInfoLengkap();
 ?>
