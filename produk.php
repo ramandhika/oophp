@@ -4,8 +4,11 @@
 class produk {
      public $judul,
             $penulis,
-            $penerbit,
-            $harga;
+            $penerbit;
+
+    // visibility proctected bertujuan untuk melindungi variabel supaya tidak digunakan sembarang oleh class lain
+    // dan hanya bisa digunakan untuk class turunan class komik dan game.
+    protected $harga, $diskon = 0;
 
     // Method
     // __construct adalah "template" untuk input
@@ -27,7 +30,7 @@ class produk {
         $str = "{$this->judul} {$this->getLabel()} (Rp. {$this->harga})";
         return $str;
     }
-        
+
 }
 
 // membuat class komik dan extends ke class produk
@@ -63,11 +66,20 @@ class game extends produk {
 
         $this->jmlJam = $jumlahJam;
     }
-
     
     public function getInfoProduk(){
         $str = "Game : ". parent::getInfoProduk() . " - {$this->jmlJam} Jam.";
         return $str;
+    }
+
+    // membuat metode setDiskon untuk menampung value diskon $diskon
+    public function setDiskon( $diskon ) {
+        $this->diskon = $diskon;
+    }
+
+    // membuat metode getHarga untuk menghitung harga diskon yang sesuai dengan value dari metode setDiskon
+    public function getHarga() {
+        return $this->harga - ($this->harga * $this->diskon / 100);
     }
 }
 
@@ -81,11 +93,15 @@ class cetakinfoproduk {
 // Membuat Instances
 $produk1 = new komik("Naruto","Masashi Kishimoto", "Shonen Jump", 30000, 100);
 
-$produk2 = new game("Valorant","Unknown","Riot Games", 0, 50);
+$produk2 = new game("Valorant","Unknown","Riot Games", 500000, 50);
 
 
 // Print Method
 echo $produk1->getInfoProduk();
 echo "<br>";
 echo $produk2->getInfoProduk();
+echo "<hr>";
+
+$produk2->setDiskon(27.5);
+echo $produk2->getHarga();
 ?>
