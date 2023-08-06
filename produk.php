@@ -7,10 +7,10 @@ class produk {
             $penerbit,
             $harga,
             $jumlahHalaman,
-            $jumlahJam,
-            $tipe;
+            $jumlahJam;
 
     // Method
+    // __construct adalah "template" untuk input
     public function __construct( $judul = "Nama Barang", $penulis = "Nama Penulis", $penerbit = "Nama Penerbit", $harga = 0, $jumlahHalaman = null, $jumlahJam = null, $tipe = "Default"){
         $this->judul = $judul;
         $this->penulis = $penulis;
@@ -18,7 +18,7 @@ class produk {
         $this->harga = $harga;
         $this->jumlahHalaman = $jumlahHalaman;
         $this->jumlahJam = $jumlahJam;
-        $this->tipe = $tipe;
+
     }
     
     public function getLabel () {
@@ -26,18 +26,29 @@ class produk {
         // Fungsi $this-> berfungsi untuk mengambil data dari variabel public dalam class
     }
 
-    public function getInfoLengkap() {
+    public function getInfoProduk() {
         // Komik : Naruto | Masashi Kishimoto,Shonen Jump (Rp. 30000) - 100 Halaman
-        $str = "{$this->tipe} : {$this->judul} {$this->getLabel()} (Rp. {$this->harga})";
-        if( $this->tipe == "Komik") {
-            $str .= " - {$this->jumlahHalaman} Halaman.";
-        } else if( $this->tipe == "Game" ){
-            $str .= " ~ {$this->jumlahJam} Jam.";
-        }
-
+        $str = "{$this->judul} {$this->getLabel()} (Rp. {$this->harga})";
         return $str;
     }
         
+}
+
+// membuat class komik dan extends ke class produk
+class komik extends produk {
+    public function getInfoProduk(){
+        $str = "Komik : {$this->judul} {$this->getLabel()} (Rp. {$this->harga}) - {$this->jumlahHalaman} Halaman.";
+        return $str;
+    }
+    
+}
+
+// membuat class game dan extends ke class produk
+class game extends produk {
+    public function getInfoProduk(){
+        $str = "Game : {$this->judul} {$this->getLabel()} (Rp. {$this->harga}) - {$this->jumlahJam} Jam.";
+        return $str;
+    }
 }
 
 class cetakinfoproduk {
@@ -48,13 +59,13 @@ class cetakinfoproduk {
 }
 
 // Membuat Instances
-$produk1 = new produk("Naruto","Masashi Kishimoto", "Shonen Jump", 30000, 100, null, "Komik");
+$produk1 = new komik("Naruto","Masashi Kishimoto", "Shonen Jump", 30000, 100, null);
 
-$produk2 = new produk("Valorant","Unknown","Riot Games", 0, null, 50, "Game");
+$produk2 = new game("Valorant","Unknown","Riot Games", 0, null, 50);
 
 
 // Print Method
-echo $produk1->getInfoLengkap();
+echo $produk1->getInfoProduk();
 echo "<br>";
-echo $produk2->getInfoLengkap();
+echo $produk2->getInfoProduk();
 ?>
