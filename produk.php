@@ -5,19 +5,15 @@ class produk {
      public $judul,
             $penulis,
             $penerbit,
-            $harga,
-            $jumlahHalaman,
-            $jumlahJam;
+            $harga;
 
     // Method
     // __construct adalah "template" untuk input
-    public function __construct( $judul = "Nama Barang", $penulis = "Nama Penulis", $penerbit = "Nama Penerbit", $harga = 0, $jumlahHalaman = null, $jumlahJam = null, $tipe = "Default"){
+    public function __construct( $judul = "Nama Barang", $penulis = "Nama Penulis", $penerbit = "Nama Penerbit", $harga = 0){
         $this->judul = $judul;
         $this->penulis = $penulis;
         $this->penerbit = $penerbit;
         $this->harga = $harga;
-        $this->jumlahHalaman = $jumlahHalaman;
-        $this->jumlahJam = $jumlahJam;
 
     }
     
@@ -36,8 +32,22 @@ class produk {
 
 // membuat class komik dan extends ke class produk
 class komik extends produk {
+    // membuat propery yang khusus untuk class komik
+    public $jmlHalaman;
+
+    // membuat constract untuk class komik
+    public function __construct( $judul = "Nama Barang", $penulis = "Nama Penulis", $penerbit = "Nama Penerbit", $harga = 0, $jumlahhalaman = 20 ){
+        
+        // memanggil metode __construct dari parent(produk)
+        parent::__construct($judul, $penulis, $penerbit, $harga);
+
+        $this->jmlHalaman = $jumlahhalaman; //jmlHalaman adalah property yang dibuat di class komik dan $jumlahhalaman adalah variabel yang dibuat dalam parameter __construct 
+    }
+
     public function getInfoProduk(){
-        $str = "Komik : {$this->judul} {$this->getLabel()} (Rp. {$this->harga}) - {$this->jumlahHalaman} Halaman.";
+        // memanggil fungsi parent:: yang bertujuan untuk memanggil metode getInfoProduk dari class parent (produk)
+        // " . . " adalah concat
+        $str = "Komik : " . parent::getInfoProduk() . " - {$this->jmlHalaman} Halaman.";
         return $str;
     }
     
@@ -45,8 +55,18 @@ class komik extends produk {
 
 // membuat class game dan extends ke class produk
 class game extends produk {
+    // membuat propery yang khusus untuk class game
+    public $jmlJam;
+
+    public function __construct( $judul = "Nama Barang", $penulis = "Nama Penulis", $penerbit = "Nama Penerbit", $harga = 0, $jumlahJam = 20 ){
+        parent::__construct( $judul, $penulis, $penerbit, $harga );
+
+        $this->jmlJam = $jumlahJam;
+    }
+
+    
     public function getInfoProduk(){
-        $str = "Game : {$this->judul} {$this->getLabel()} (Rp. {$this->harga}) - {$this->jumlahJam} Jam.";
+        $str = "Game : ". parent::getInfoProduk() . " - {$this->jmlJam} Jam.";
         return $str;
     }
 }
@@ -59,9 +79,9 @@ class cetakinfoproduk {
 }
 
 // Membuat Instances
-$produk1 = new komik("Naruto","Masashi Kishimoto", "Shonen Jump", 30000, 100, null);
+$produk1 = new komik("Naruto","Masashi Kishimoto", "Shonen Jump", 30000, 100);
 
-$produk2 = new game("Valorant","Unknown","Riot Games", 0, null, 50);
+$produk2 = new game("Valorant","Unknown","Riot Games", 0, 50);
 
 
 // Print Method
